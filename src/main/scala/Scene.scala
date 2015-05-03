@@ -1,3 +1,4 @@
+import akka.actor.{Actor,Props,ActorSystem}
 object Scene {
 
   import java.io.{FileReader, LineNumberReader}
@@ -67,6 +68,7 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
     // color of a pixel.  The actor need not receive any messages.
 
     for (y <- 0 until height) {
+        //Create actor within this loop. One actor per row.
       for (x <- 0 until width) {
 
         // This loop body can be sequential.
