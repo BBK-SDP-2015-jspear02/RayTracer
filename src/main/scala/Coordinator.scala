@@ -1,4 +1,5 @@
-import akka.actor.{Actor,Props,ActorSystem}
+import akka.actor.{Actor}
+import akka.event.Logging
 // TODO
 //
 // Make this an actor and write a message handler for at least the
@@ -19,11 +20,14 @@ object Coordinator {
   // TODO: make set a message
   def set(x: Int, y: Int, c: Colour) = {
     image(x, y) = c
+
     waiting -= 1
-    println("set x:" + x + " y:" +y  + " color:" + c + " waiting:" + waiting)
+
     if (waiting == 0) {
-      //no more pixels left to process?
-      print
+      Trace.system.shutdown()
+        print
+    } else {
+      println("x: " + x + " y: " + y + " waiting: " + waiting)
     }
   }
 
@@ -31,14 +35,20 @@ object Coordinator {
     println("print here")
     assert(waiting == 0)
     image.print(outfile)
+    println("rays cast " + Trace.rayCount)
+    println("rays hit " + Trace.hitCount)
+    println("light " + Trace.lightCount)
+    println("dark " + Trace.darkCount)
   }
 }
 
 class Coordinator() extends Actor{
   //Initialise when the actor is created
-
+  val logger = Logging(context.system, this)
   def receive = {
     case (image: Image, outfile: String) => Coordinator.init(image,outfile)
     case (x: Int, y: Int, colour: Colour) => Coordinator.set(x,y,colour)
+    case "shutdown" => context.system.shutdown();
+    case _ => logger.warning("What the.....")
   }
 }

@@ -3,8 +3,8 @@ import akka.actor.ActorSystem
 object Trace {
 
   val AntiAliasingFactor = 4
-  val Width = 800
-  val Height = 600
+  val Width = 80
+  val Height = 60
 
   var rayCount = 0
   var hitCount = 0
@@ -22,15 +22,11 @@ object Trace {
 
     render(scene, outfile, Width, Height)
 
-    println("rays cast " + rayCount)
-    println("rays hit " + hitCount)
-    println("light " + lightCount)
-    println("dark " + darkCount)
   }
 
   def render(scene: Scene, outfile: String, width: Int, height: Int) = {
     val image = new Image(width, height)
-    import akka.actor.{Props,Actor,ActorSystem}
+    import akka.actor.{Props}
     //create the actor system
 
     //Initialise the co-ordinator as an actor. Init takes place on initialization

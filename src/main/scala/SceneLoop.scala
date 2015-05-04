@@ -10,8 +10,9 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
   }
 
   def xLoop(y:Int):Unit = {
-    println("row" + y)
+   // println("row" + y)
     for (x <- 0 until width) {
+     // println("row:" + y + " column:" + x)
 
       // This loop body can be sequential.
       var colour = Colour.black
@@ -35,10 +36,10 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
         Trace.darkCount += 1
       if (Vector(colour.r, colour.g, colour.b).norm > 1)
         Trace.lightCount += 1
-      //val rowset = Trace.system.actorOf(Props(new Coordinator()), name = "rowset" + y)
-     // rowset ! (x,)
-      //Now set it
-      Coordinator.set(x, y, colour)
+
+      val rowset = Trace.system.actorOf(Props(new Coordinator()), name = "pixel" + y + "_" + x)
+      rowset ! (x,y,colour)
+
     }
   }
 
@@ -131,7 +132,6 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
       }
       case Some((v, o)) => {
         // Compute the color as the sum of:
-
         Trace.hitCount += 1
 
         // The contribution of each point light source.
