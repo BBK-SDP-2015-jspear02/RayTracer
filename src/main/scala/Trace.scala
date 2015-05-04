@@ -1,3 +1,5 @@
+import akka.actor.ActorSystem
+
 object Trace {
 
   val AntiAliasingFactor = 4
@@ -8,7 +10,7 @@ object Trace {
   var hitCount = 0
   var lightCount = 0
   var darkCount = 0
-
+  var system = ActorSystem("rayTracer")
   def main(args: Array[String]): Unit = {
     if (args.length != 2) {
       println("usage: scala Trace input.dat output.png")
@@ -29,15 +31,10 @@ object Trace {
   def render(scene: Scene, outfile: String, width: Int, height: Int) = {
     val image = new Image(width, height)
     import akka.actor.{Props,Actor,ActorSystem}
+    //create the actor system
 
-    val system = ActorSystem("rayTracer")
-    val coord = system.actorOf(Props[new Coordinator], "coord")
-    //Initialise the co-ordinator
-    coord ! init
-    // Init the coordinator -- must be done before starting it.
-    Coordinator.init(image, outfile)
-
-    // TODO: Start the Coordinator actor.
+    //Initialise the co-ordinator as an actor. Init takes place on initialization
+    val coord = system.actorOf(Props(new Coordinator(image,outfile)), name = "coord")
 
     scene.traceImage(width, height)
 

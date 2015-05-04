@@ -28,7 +28,9 @@ object Coordinator {
   }
 }
 
-class Coordinator extends Actor{
+class Coordinator(im: Image, of: String) extends Actor{
+  //Initialise when the actor is created
+  Coordinator.init(im,of)
   def receive = {
     case "set" => Coordinator.set(x,y,c)
   }
