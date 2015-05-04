@@ -28,7 +28,10 @@ object Trace {
 
   def render(scene: Scene, outfile: String, width: Int, height: Int) = {
     val image = new Image(width, height)
+    import akka.actor.{Props,Actor,ActorSystem}
 
+    val system = ActorSystem("rayTracer")
+    val coord = system.actorOf(Props)
     // Init the coordinator -- must be done before starting it.
     Coordinator.init(image, outfile)
 

@@ -1,3 +1,4 @@
+import akka.actor.{Actor,Props,ActorSystem}
 // TODO
 //
 // Make this an actor and write a message handler for at least the
@@ -8,6 +9,8 @@ object Coordinator {
     image = im
     outfile = of
     waiting = im.width * im.height
+    val system = ActorSystem("rayTracer")
+    val actor = system.actorOf(Props(new Coordinator), "coord")
   }
 
   // Number of pixels we're waiting for to be set.
@@ -24,5 +27,11 @@ object Coordinator {
   def print = {
     assert(waiting == 0)
     image.print(outfile)
+  }
+}
+
+class Coordinator extends Actor{
+  def receive = {
+    case "set" => Coordinator.set(x,y,c)
   }
 }
