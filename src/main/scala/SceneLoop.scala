@@ -1,14 +1,16 @@
-import akka.actor.Actor
+import akka.actor.{Props, Actor}
 class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, objects: List[Shape], lights: List[Light]) extends Actor{
   val ambient = .2f
   val background = Colour.black
   val eye = Vector.origin
 
   def receive() = {
-    case (y: Int) =>
+    case (y: Int) => xLoop(y)
+    case _ => ???
   }
 
   def xLoop(y:Int):Unit = {
+    println("row" + y)
     for (x <- 0 until width) {
 
       // This loop body can be sequential.
@@ -33,7 +35,9 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
         Trace.darkCount += 1
       if (Vector(colour.r, colour.g, colour.b).norm > 1)
         Trace.lightCount += 1
-      val actor = Actor
+      //val rowset = Trace.system.actorOf(Props(new Coordinator()), name = "rowset" + y)
+     // rowset ! (x,)
+      //Now set it
       Coordinator.set(x, y, colour)
     }
   }

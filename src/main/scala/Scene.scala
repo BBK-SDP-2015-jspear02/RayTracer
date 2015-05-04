@@ -67,8 +67,8 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
     for (y <- 0 until height) {
 
       //Create actor within this loop. One actor per row. Seperate method?
-      val rowActor = Trace.system(Props(new SceneLoop(height,width,ss,sinf,cosf, objects, lights})), "row" + y)
-
+      val rowActor = Trace.system.actorOf(Props(new SceneLoop(height, width, ss, sinf, cosf, objects, lights)), "row" + y)
+      rowActor ! (y)
 
     }
   }

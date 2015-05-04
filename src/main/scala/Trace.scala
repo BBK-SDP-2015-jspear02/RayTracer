@@ -34,14 +34,10 @@ object Trace {
     //create the actor system
 
     //Initialise the co-ordinator as an actor. Init takes place on initialization
-    val coord = system.actorOf(Props(new Coordinator(image,outfile)), name = "coord")
+    val coord = system.actorOf(Props(new Coordinator()), name = "coord")
+    coord ! (image,outfile)
 
     scene.traceImage(width, height)
 
-    // TODO:
-    // This one is tricky--we can't simply send a message here to print
-    // the image, since the actors started by traceImage haven't necessarily
-    // finished yet.  Maybe print should be called elsewhere?
-    Coordinator.print
   }
 }
