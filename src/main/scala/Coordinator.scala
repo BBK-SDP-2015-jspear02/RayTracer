@@ -9,8 +9,6 @@ object Coordinator {
     image = im
     outfile = of
     waiting = im.width * im.height
-    val system = ActorSystem("rayTracer")
-    val actor = system.actorOf(Props(new Coordinator), "coord")
   }
 
   // Number of pixels we're waiting for to be set.

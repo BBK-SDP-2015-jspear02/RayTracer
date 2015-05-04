@@ -31,7 +31,9 @@ object Trace {
     import akka.actor.{Props,Actor,ActorSystem}
 
     val system = ActorSystem("rayTracer")
-    val coord = system.actorOf(Props)
+    val coord = system.actorOf(Props[new Coordinator], "coord")
+    //Initialise the co-ordinator
+    coord ! init
     // Init the coordinator -- must be done before starting it.
     Coordinator.init(image, outfile)
 
