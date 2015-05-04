@@ -20,7 +20,9 @@ object Coordinator {
   def set(x: Int, y: Int, c: Colour) = {
     image(x, y) = c
     waiting -= 1
+    println("set x:" + x + " y:" +y  + " color:" + c + " waiting:" + waiting)
     if (waiting == 0) {
+
       //no more pixels left to process?
       print
     }
