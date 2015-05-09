@@ -16,7 +16,7 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
   }
 
   def xLoop(y:Int):Unit = {
-
+    val pixel = Trace.system.actorOf(Props(new Coordinator()), name = "pixel" + y )
     // println("row" + y)
     for (x <- 0 until width) {
      // println("row:" + y + " column:" + x)
@@ -43,7 +43,8 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
         Trace.darkCount += 1
       if (Vector(colour.r, colour.g, colour.b).norm > 1)
         Trace.lightCount += 1
-      Coordinator
+      //Set the color for the pixel
+      pixel ! (x,y, colour)
     }
   }
 

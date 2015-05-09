@@ -8,7 +8,7 @@ object Scene {
   import java.io.{FileReader, LineNumberReader}
 
   import scala.annotation.tailrec
-  val pixel = Trace.system.actorOf(Props(new Coordinator()), name = "pixel" )
+
 
   def fromFile(file: String) = {
     val in = new LineNumberReader(new FileReader(file))
@@ -73,7 +73,7 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
 
       //Create actor within this loop. One actor per row. Seperate method?
       val rowActor = Trace.system.actorOf(Props(new SceneLoop(height, width, ss, sinf, cosf, objects, lights)), "row" + y)
-      val future = rowActor ! (y)
+      rowActor ! (y)
 
      // Coordinator.set();
     }

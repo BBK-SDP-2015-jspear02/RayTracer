@@ -31,7 +31,6 @@ object Coordinator {
   }
 
   def print = {
-    println("print here")
     assert(waiting == 0)
     image.print(outfile)
     println("rays cast " + Trace.rayCount)
