@@ -3,6 +3,8 @@ import akka.dispatch.Futures
 import akka.pattern.ask
 import akka.util.Timeout
 
+import scala.concurrent.Await
+
 class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, objects: List[Shape], lights: List[Light]) extends Actor{
   val ambient = .2f
   val background = Colour.black
@@ -43,9 +45,7 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
         Trace.lightCount += 1
 
       val future = Scene.pixel ? update
-      val result = Await.result(future, timeout.duration).asInstanceOf[String]
-      val count: Option[Int] = future.as[Int]
-
+      val response = Await.result(future, timeout.duration).asInstanceOf[String]
 
     }
   }
