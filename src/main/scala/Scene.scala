@@ -4,6 +4,7 @@ object Scene {
   import java.io.{FileReader, LineNumberReader}
 
   import scala.annotation.tailrec
+  val pixel = Trace.system.actorOf(Props(new Coordinator()), name = "pixel" )
 
   def fromFile(file: String) = {
     val in = new LineNumberReader(new FileReader(file))

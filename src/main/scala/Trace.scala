@@ -3,8 +3,8 @@ import akka.actor.ActorSystem
 object Trace {
 
   val AntiAliasingFactor = 4
-  val Width = 80
-  val Height = 60
+  val Width = 800
+  val Height = 600
 
   var rayCount = 0
   var hitCount = 0

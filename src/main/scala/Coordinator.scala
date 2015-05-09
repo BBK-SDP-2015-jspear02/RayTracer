@@ -5,6 +5,8 @@ import akka.event.Logging
 // Make this an actor and write a message handler for at least the
 // set method.
 //
+case object update
+
 object Coordinator {
   def init(im: Image, of: String) = {
     image = im
@@ -44,10 +46,13 @@ object Coordinator {
 
 class Coordinator() extends Actor{
   //Initialise when the actor is created
+  var waiting = 0 ;
   val logger = Logging(context.system, this)
   def receive = {
     case (image: Image, outfile: String) => Coordinator.init(image,outfile)
-    case (x: Int, y: Int, colour: Colour) => Coordinator.set(x,y,colour)
+    case (x: Int, y: Int, colour: Colour) =>
+      Coordinator.set(x,y,colour)
+    case update => waiting - 1;
     case "shutdown" => context.system.shutdown();
     case _ => logger.warning("What the.....")
   }
