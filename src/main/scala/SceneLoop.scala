@@ -2,14 +2,14 @@ import akka.actor._
 import akka.dispatch.Futures
 import akka.pattern.ask
 import akka.util.Timeout
-
+import scala.concurrent.duration._
 import scala.concurrent.Await
 
 class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, objects: List[Shape], lights: List[Light]) extends Actor{
   val ambient = .2f
   val background = Colour.black
   val eye = Vector.origin
-  val timeout = Timeout(5)
+
   def receive() = {
     case (y: Int) => xLoop(y)
     case _ => ???
@@ -43,10 +43,7 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
         Trace.darkCount += 1
       if (Vector(colour.r, colour.g, colour.b).norm > 1)
         Trace.lightCount += 1
-
-      val future = Scene.pixel ? update
-      val response = Await.result(future, timeout.duration).asInstanceOf[String]
-
+      Coordinator
     }
   }
 
