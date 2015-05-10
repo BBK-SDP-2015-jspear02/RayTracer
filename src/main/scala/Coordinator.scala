@@ -1,10 +1,12 @@
 import akka.actor.{Actor}
-import akka.event.Logging
+
 // TODO
 //
 // Make this an actor and write a message handler for at least the
 // set method.
 //
+case class Pixel(x: Int, y :Int, c: Colour)
+case class Update(item : String)
 
 object Coordinator {
   def init(im: Image, of: String) = {
@@ -30,6 +32,16 @@ object Coordinator {
     }
   }
 
+  def update(item:String) = {
+    item match {
+      case "light" => Trace.lightCount += 1
+      case "dark" => Trace.darkCount +=1
+      case "ray" => Trace.rayCount += 1
+      case "hit" => Trace.hitCount += 1
+      case _ => ???
+    }
+  }
+
   def print = {
     assert(waiting == 0)
     image.print(outfile)
@@ -44,10 +56,8 @@ class Coordinator() extends Actor{
   //Initialise when the actor is created
 
   def receive = {
-    case (image: Image, outfile: String) => Coordinator.init(image,outfile)
-    case (x: Int, y: Int, colour: Colour) =>
-      Coordinator.set(x,y,colour)
-    case "shutdown" => context.system.shutdown();
-    case _ => ???
+    case Pixel(x: Int, y: Int, colour: Colour) => Coordinator.set(x,y,colour)
+    case Update(item : String) => Coordinator.update(item)
+    case _ => throw new Error("What is this?!")
   }
 }

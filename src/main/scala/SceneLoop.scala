@@ -44,7 +44,7 @@ class SceneLoop(height: Int,width: Int, ss: Int, sinf: Double, cosf: Double, obj
       if (Vector(colour.r, colour.g, colour.b).norm > 1)
         Trace.lightCount += 1
       //Set the color for the pixel
-      pixel ! (x,y, colour)
+      pixel ! Pixel(x,y, colour)
     }
   }
 

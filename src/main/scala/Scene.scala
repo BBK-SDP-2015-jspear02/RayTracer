@@ -75,7 +75,6 @@ class Scene private(val objects: List[Shape], val lights: List[Light]) {
       val rowActor = Trace.system.actorOf(Props(new SceneLoop(height, width, ss, sinf, cosf, objects, lights)), "row" + y)
       rowActor ! (y)
 
-     // Coordinator.set();
     }
   }
 

@@ -31,8 +31,7 @@ object Trace {
 
     //Initialise the co-ordinator as an actor. Init takes place on initialization
     val coord = system.actorOf(Props(new Coordinator()), name = "coord")
-    coord ! (image,outfile)
-
+    Coordinator.init(image,outfile)
     scene.traceImage(width, height)
 
   }
